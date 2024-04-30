@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <curl/curl.h>
+#include <libxml/HTMLparser.h>
+void parseHtmlNode(xmlNode *node) 
+{
+  xmlNode *current_node = NULL;
+  for (current_node = node; current_node; 
+  current_node = current_node->next)
+}
+parseHtmlNode(current_node->children); 
+{
+  CURL *curl;
+  CURLcode res;
+ curl_global_init(CURL_GLOBAL_ALL);
+ curl = curl_easy_init();
+ if (curl)
+{
+  curl_easy_setopt(curl, CURLOPT_URL, "https://example.com");
+  res = curl_easy_perform(curl);
+  if (res != CURLE_OK)
+{
+  fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+} 
+else
+{
+ htmlDocPtr doc = htmlReadMemory(curl_easy_strerror(res), strlen(curl_easy_strerror(res)), NULL, NULL, HTML_PARSE_NOERROR | HTML_PARSE_NOWARNING);
+ if (doc != NULL) 
+{
+  xmlNode *root_element = xmlDocGetRootElement(doc);
+  parseHtmlNode(root_element);
+  xmlFreeDoc(doc);
+}
+else
+{
+  fprintf(stderr, "Error parsing HTML\n");
+}
+}
+  curl_easy_cleanup(curl);
+}
+  curl_global_cleanup();
+  return 0;
+}
+    
